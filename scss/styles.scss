@@ -1,0 +1,10 @@
+@use "./config/variables.scss";
+@use "./config/mixins.scss";
+
+@use "./forms.scss";
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 10px;
+}
