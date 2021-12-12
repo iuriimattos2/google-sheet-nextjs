@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 
 //Constants
-import { selectOptions } from "../functions/constants";
+import { selectOptions } from "../helpers/constants";
 
 export default function Home() {
   const [status, setStatus] = useState(null);

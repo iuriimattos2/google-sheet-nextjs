@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { google } from "googleapis";
-import { dateDDMMYYYY, timeHHMM, dayOfWeek } from "../../functions/constants";
+import { dateDDMMYYYY, timeHHMM, dayOfWeek } from "../../helpers/constants";
 
 async function handler(req, res) {
   console.log("entered");
@@ -28,7 +28,7 @@ async function handler(req, res) {
 
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.NEXT_SPREADSHEET_ID,
-      range: "Sheet1!A2:E",
+      range: "Sheet1!A2:N",
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [
