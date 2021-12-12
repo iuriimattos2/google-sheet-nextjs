@@ -21,11 +21,6 @@ export default function Home() {
   const [categoryOptions, setCategoryOptions] = useState(selectOptions); //init state
   const [subcategoryOptions, setSubCategoryOptions] = useState(null);
   const [brandOptions, setBrandOptions] = useState(null);
-  const [isAndroid, setIsAndroidDevice] = useState("");
-
-  useEffect(() => {
-    setIsAndroidDevice(/Android/i.test(navigator.userAgent));
-  }, []);
 
   const {
     register,
@@ -55,29 +50,16 @@ export default function Home() {
       setStatus("Geolocation is not supported by your browser");
     } else {
       setStatus("Locating...");
-      if (isAndroid) {
-        navigator.geolocation.watchPosition(
-          (position) => {
-            setStatus(null);
-            setValue("longitude", position.coords.longitude);
-            setValue("latitude", position.coords.latitude);
-          },
-          () => {
-            setStatus("Unable to retrieve your location");
-          }
-        );
-      } else {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setStatus(null);
-            setValue("longitude", position.coords.longitude);
-            setValue("latitude", position.coords.latitude);
-          },
-          () => {
-            setStatus("Unable to retrieve your location");
-          }
-        );
-      }
+      navigator.geolocation.watchPosition(
+        (position) => {
+          setStatus(null);
+          setValue("longitude", position.coords.longitude);
+          setValue("latitude", position.coords.latitude);
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
     }
   };
 
