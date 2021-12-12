@@ -1,6 +1,6 @@
 //React + Pkgs
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   VStack,
   Stack,
@@ -21,6 +21,11 @@ export default function Home() {
   const [categoryOptions, setCategoryOptions] = useState(selectOptions); //init state
   const [subcategoryOptions, setSubCategoryOptions] = useState(null);
   const [brandOptions, setBrandOptions] = useState(null);
+  const [isAndroid, setIsAndroidDevice] = useState("");
+
+  useEffect(() => {
+    setIsAndroidDevice(/Android/i.test(navigator.userAgent));
+  }, []);
 
   const {
     register,
@@ -50,16 +55,29 @@ export default function Home() {
       setStatus("Geolocation is not supported by your browser");
     } else {
       setStatus("Locating...");
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setStatus(null);
-          setValue("longitude", position.coords.longitude);
-          setValue("latitude", position.coords.latitude);
-        },
-        () => {
-          setStatus("Unable to retrieve your location");
-        }
-      );
+      if (isAndroid) {
+        navigator.geolocation.watchPosition(
+          (position) => {
+            setStatus(null);
+            setValue("longitude", position.coords.longitude);
+            setValue("latitude", position.coords.latitude);
+          },
+          () => {
+            setStatus("Unable to retrieve your location");
+          }
+        );
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setStatus(null);
+            setValue("longitude", position.coords.longitude);
+            setValue("latitude", position.coords.latitude);
+          },
+          () => {
+            setStatus("Unable to retrieve your location");
+          }
+        );
+      }
     }
   };
 
@@ -180,6 +198,7 @@ export default function Home() {
                 <Input
                   placeholder="Latitude"
                   variant="filled"
+                  isReadOnly={true}
                   mt={3}
                   mr={2}
                   {...register("latitude")}
@@ -188,6 +207,7 @@ export default function Home() {
                 <Input
                   placeholder="Longitude"
                   variant="filled"
+                  isReadOnly={true}
                   mt={3}
                   {...register("longitude")}
                 />
