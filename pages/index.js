@@ -28,7 +28,12 @@ export default function Home() {
     reset,
     setValue,
     formState: { errors }, // catch error messages
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      longitude: "",
+      latitude: "",
+    },
+  });
 
   function submitHandler(data) {
     console.log("data", data);
